@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Money Manager</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="brand">
+            <span class="brand-mark">₿</span>
+            <span>Money Manager</span>
+        </div>
+
+        <button id="themeToggle" class="icon-btn" title="Ganti tema">
+            ☾
+        </button>
+    </header>
+
+    <main class="container">
+
+        <!-- DASHBOARD -->
+        <section class="hero">
+            <div>
+                <p class="eyebrow">FINANCIAL DASHBOARD</p>
+                <h1>Keuangan saya.</h1>
+                <p class="muted">
+                    Pantau pemasukan, pengeluaran, budget, wishlist,
+                    dan pengingat dalam satu tempat.
+                </p>
+            </div>
+
+            <div class="month-selector">
+                <label for="currentMonth">Bulan</label>
+                <input type="month" id="currentMonth">
+            </div>
+        </section>
+
+        <!-- SUMMARY -->
+        <section class="summary-grid">
+
+            <div class="summary-card">
+                <span>Gaji / Pemasukan</span>
+                <strong id="totalIncome">Rp 0</strong>
+            </div>
+
+            <div class="summary-card">
+                <span>Total Pengeluaran</span>
+                <strong id="totalExpense">Rp 0</strong>
+            </div>
+
+            <div class="summary-card">
+                <span>Sisa Uang</span>
+                <strong id="balance">Rp 0</strong>
+            </div>
+
+            <div class="summary-card">
+                <span>Budget Tersisa</span>
+                <strong id="remainingBudget">Rp 0</strong>
+            </div>
+
+        </section>
+
+        <!-- SALARY + BUDGET -->
+        <section class="two-column">
+
+            <div class="panel">
+                <div class="panel-header">
+                    <div>
+                        <p class="eyebrow">MONTHLY INCOME</p>
+                        <h2>Gaji bulan ini</h2>
+                    </div>
+                </div>
+
+                <form id="salaryForm">
+
+                    <label>
+                        Jumlah gaji
+                        <input
+                            type="number"
+                            id="salaryAmount"
+                            placeholder="5000000"
+                            min="0"
+                            required
+                        >
+                    </label>
+
+                    <label>
+                        Tanggal gajian
+                        <input
+                            type="date"
+                            id="salaryDate"
+                            required
+                        >
+                    </label>
+
+                    <button class="primary-btn" type="submit">
+                        Simpan Gaji
+                    </button>
+
+                </form>
+            </div>
+
+            <div class="panel">
+
+                <div class="panel-header">
+                    <div>
+                        <p class="eyebrow">BUDGET</p>
+                        <h2>Pembagian gaji</h2>
+                    </div>
+                </div>
+
+                <form id="budgetForm">
+
+                    <div class="form-grid">
+
+                        <label>
+                            Kebutuhan
+                            <input
+                                type="number"
+                                id="needsBudget"
+                                placeholder="2000000"
+                                min="0"
+                            >
+                        </label>
+
+                        <label>
+                            Tabungan
+                            <input
+                                type="number"
+                                id="savingBudget"
+                                placeholder="1000000"
+                                min="0"
+                            >
+                        </label>
+
+                        <label>
+                            Investasi
+                            <input
+                                type="number"
+                                id="investmentBudget"
+                                placeholder="500000"
+                                min="0"
+                            >
+                        </label>
+
+                        <label>
+                            Hiburan
+                            <input
+                                type="number"
+                                id="entertainmentBudget"
+                                placeholder="500000"
+                                min="0"
+                            >
+                        </label>
+
+                    </div>
+
+                    <button class="primary-btn" type="submit">
+                        Simpan Budget
+                    </button>
+
+                </form>
+
+            </div>
+
+        </section>
+
+        <!-- TRANSACTION -->
+        <section class="panel">
+
+            <div class="panel-header">
+                <div>
+                    <p class="eyebrow">TRANSACTIONS</p>
+                    <h2>Tambah transaksi</h2>
+                </div>
+            </div>
+
+            <form id="transactionForm">
+
+                <div class="form-grid four">
+
+                    <label>
+                        Tipe
+                        <select id="transactionType">
+                            <option value="expense">Pengeluaran</option>
+                            <option value="income">Pemasukan</option>
+                        </select>
+                    </label>
+
+                    <label>
+                        Kategori
+                        <select id="transactionCategory">
+                            <option>Kebutuhan</option>
+                            <option>Makanan</option>
+                            <option>Transportasi</option>
+                            <option>Tagihan</option>
+                            <option>Hiburan</option>
+                            <option>Belanja</option>
+                            <option>Investasi</option>
+                            <option>Tabungan</option>
+                            <option>Lainnya</option>
+                        </select>
+                    </label>
+
+                    <label>
+                        Jumlah
+                        <input
+                            type="number"
+                            id="transactionAmount"
+                            placeholder="50000"
+                            min="0"
+                            required
+                        >
+                    </label>
+
+                    <label>
+                        Tanggal
+                        <input
+                            type="date"
+                            id="transactionDate"
+                            required
+                        >
+                    </label>
+
+                </div>
+
+                <label>
+                    Catatan
+                    <input
+                        type="text"
+                        id="transactionNote"
+                        placeholder="Contoh: makan siang"
+                    >
+                </label>
+
+                <button class="primary-btn" type="submit">
+                    Tambah Transaksi
+                </button>
+
+            </form>
+
+        </section>
+
+        <!-- TRANSACTION LIST -->
+        <section class="panel">
+
+            <div class="panel-header">
+                <div>
+                    <p class="eyebrow">HISTORY</p>
+                    <h2>Riwayat transaksi</h2>
+                </div>
+            </div>
+
+            <div id="transactionList" class="transaction-list">
+                <div class="empty-state">
+                    Belum ada transaksi.
+                </div>
+            </div>
+
+        </section>
+
+        <!-- WISHLIST -->
+        <section class="panel">
+
+            <div class="panel-header">
+                <div>
+                    <p class="eyebrow">WISHLIST</p>
+                    <h2>Barang yang ingin dibeli</h2>
+                </div>
+            </div>
+
+            <form id="wishlistForm">
+
+                <div class="form-grid">
+
+                    <label>
+                        Nama barang
+                        <input
+                            type="text"
+                            id="wishlistName"
+                            placeholder="Contoh: Keyboard Mechanical"
+                            required
+                        >
+                    </label>
+
+                    <label>
+                        Harga
+                        <input
+                            type="number"
+                            id="wishlistPrice"
+                            placeholder="750000"
+                            min="0"
+                            required
+                        >
+                    </label>
+
+                    <label>
+                        Prioritas
+                        <select id="wishlistPriority">
+                            <option value="perlu">Perlu</option>
+                            <option value="mungkin">Mungkin</option>
+                            <option value="belum">Belum Terlalu</option>
+                        </select>
+                    </label>
+
+                </div>
+
+                <button class="primary-btn" type="submit">
+                    Tambah Wishlist
+                </button>
+
+            </form>
+
+            <div id="wishlistList" class="wishlist-grid">
+                <div class="empty-state">
+                    Wishlist masih kosong.
+                </div>
+            </div>
+
+        </section>
+
+        <!-- CALENDAR -->
+        <section class="panel">
+
+            <div class="panel-header">
+
+                <div>
+                    <p class="eyebrow">CALENDAR</p>
+                    <h2>Pengingat keuangan</h2>
+                </div>
+
+                <button id="addReminderBtn" class="secondary-btn">
+                    + Pengingat
+                </button>
+
+            </div>
+
+            <div class="calendar-header">
+
+                <button id="prevMonth" class="icon-btn">
+                    ‹
+                </button>
+
+                <h3 id="calendarTitle"></h3>
+
+                <button id="nextMonth" class="icon-btn">
+                    ›
+                </button>
+
+            </div>
+
+            <div class="calendar-week">
+                <span>Min</span>
+                <span>Sen</span>
+                <span>Sel</span>
+                <span>Rab</span>
+                <span>Kam</span>
+                <span>Jum</span>
+                <span>Sab</span>
+            </div>
+
+            <div id="calendar" class="calendar"></div>
+
+            <div class="reminder-list" id="reminderList">
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- REMINDER MODAL -->
+    <div id="reminderModal" class="modal hidden">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h2>Tambah Pengingat</h2>
+
+                <button id="closeModal" class="icon-btn">
+                    ×
+                </button>
+            </div>
+
+            <form id="reminderForm">
+
+                <label>
+                    Judul
+                    <input
+                        type="text"
+                        id="reminderTitle"
+                        placeholder="Bayar kos"
+                        required
+                    >
+                </label>
+
+                <label>
+                    Tanggal
+                    <input
+                        type="date"
+                        id="reminderDate"
+                        required
+                    >
+                </label>
+
+                <label>
+                    Jumlah
+                    <input
+                        type="number"
+                        id="reminderAmount"
+                        placeholder="1000000"
+                        min="0"
+                    >
+                </label>
+
+                <button class="primary-btn">
+                    Simpan Pengingat
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <footer>
+        <p>Money Manager · Personal Finance</p>
+    </footer>
+
+    <script src="app.js"></script>
+
+</body>
+</html>
